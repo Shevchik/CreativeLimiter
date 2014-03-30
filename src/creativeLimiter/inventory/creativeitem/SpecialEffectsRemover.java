@@ -25,8 +25,8 @@ public class SpecialEffectsRemover {
 		if (item.hasItemMeta()) {
 			ItemMeta im = item.getItemMeta();
 			if (im.hasDisplayName()) {
-				if (im.getDisplayName().length() > 64) {
-					im.setDisplayName(im.getDisplayName().substring(0, 64));
+				if (im.getDisplayName().length() > 32) {
+					im.setDisplayName(im.getDisplayName().substring(0, 32));
 					item.setItemMeta(im);
 				}
 			}
