@@ -2,6 +2,7 @@ package creativeLimiter.core;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import creativeLimiter.core.misc.JoinGamemodeChanger;
 import creativeLimiter.interact.HorseRestrict;
 import creativeLimiter.inventory.creativeitem.CreativeItemGetListener;
 import creativeLimiter.ongmswitch.inventory.close.InventoryClose;
@@ -19,6 +20,7 @@ public class CreativeLimiter extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new RemoveDropFromPlaced(), this);
 		getServer().getPluginManager().registerEvents(new CreativeItemGetListener(), this);
 		getServer().getPluginManager().registerEvents(new VoidDamageListener(), this);
+		getServer().getPluginManager().registerEvents(new JoinGamemodeChanger(this), this);
 	}
 
 }
