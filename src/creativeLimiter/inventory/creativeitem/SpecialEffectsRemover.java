@@ -1,5 +1,7 @@
 package creativeLimiter.inventory.creativeitem;
 
+import java.util.Map;
+
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -7,17 +9,18 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class SpecialEffectsRemover {
 
 	public void removeInvalidEnchants(ItemStack item) {
-		for (Enchantment ench : item.getEnchantments().keySet()) {
-			if ((item.getEnchantmentLevel(ench) > ench.getMaxLevel()) || (!ench.canEnchantItem(item))) {
-				item.removeEnchantment(ench);
-			}
-		}
 		int count = 1;
 		for (Enchantment ench : item.getEnchantments().keySet()) {
 			if (count > 4) {
 				item.removeEnchantment(ench);
 			}
 			count++;
+		}
+		Map<Enchantment, Integer> enchants = item.getEnchantments();
+		for (Enchantment ench : enchants.keySet()) {
+			if ((enchants.get(ench) > ench.getMaxLevel()) || (!ench.canEnchantItem(item))) {
+				item.removeEnchantment(ench);
+			}
 		}
 	}
 
