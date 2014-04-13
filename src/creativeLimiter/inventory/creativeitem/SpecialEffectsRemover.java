@@ -4,49 +4,42 @@ import java.util.Map;
 
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class SpecialEffectsRemover {
 
-	public void removeInvalidEnchants(ItemStack item) {
-		int count = 1;
-		for (Enchantment ench : item.getEnchantments().keySet()) {
-			if (count > 4) {
-				item.removeEnchantment(ench);
-			}
-			count++;
-		}
+	public int getValidSum() {
+		return 4;
+	}
+
+	public int isEnchantsValid(ItemStack item) {
 		Map<Enchantment, Integer> enchants = item.getEnchantments();
+		if (enchants.size() > 4) {
+			return 0;
+		}
 		for (Enchantment ench : enchants.keySet()) {
 			if ((enchants.get(ench) > ench.getMaxLevel()) || (!ench.canEnchantItem(item))) {
-				item.removeEnchantment(ench);
+				return 0;
 			}
 		}
+		return 1;
 	}
 
-	public void removeInvalidDisplayName(ItemStack item) {
-		if (item.hasItemMeta()) {
-			ItemMeta im = item.getItemMeta();
-			if (im.hasDisplayName()) {
-				if (im.getDisplayName().length() > 32) {
-					im.setDisplayName(im.getDisplayName().substring(0, 32));
-					item.setItemMeta(im);
-				}
-			}
+	public int isDisplayNameValid(ItemStack item) {
+		if (item.hasItemMeta() && item.getItemMeta().hasDisplayName() && item.getItemMeta().getDisplayName().length() > 32) {
+			return 0;
 		}
+		return 1;
 	}
 
-	public void removeInvalidLore(ItemStack item) {
-		if (item.hasItemMeta()) {
-			ItemMeta im = item.getItemMeta();
-			if (im.hasLore()) {
-				im.setLore(null);
-				item.setItemMeta(im);
-			}
+	public int isLoreValid(ItemStack item) {
+		if (item.hasItemMeta() && item.getItemMeta().hasLore()) {
+			return 0;
 		}
+		return 1;
 	}
 
-	public void removeInvalidAttributes(ItemStack item) {
+	public int isAttributesValid(ItemStack item) {
+		return 1;
 	}
 
 }

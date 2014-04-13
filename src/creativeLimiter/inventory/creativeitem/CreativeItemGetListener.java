@@ -20,10 +20,15 @@ public class CreativeItemGetListener implements Listener {
 		if (!e.getWhoClicked().hasPermission("CreativeLimiter.bypass")) {
 			ItemStack item = e.getCursor();
 			if (item != null && item.getType() != Material.AIR && isNotMarked(item)) {
-				eremover.removeInvalidEnchants(item);
-				eremover.removeInvalidDisplayName(item);
-				eremover.removeInvalidLore(item);
-				eremover.removeInvalidAttributes(item);
+				int currentSum = 0;
+				currentSum += eremover.isEnchantsValid(item);
+				currentSum += eremover.isDisplayNameValid(item);
+				currentSum += eremover.isLoreValid(item);
+				currentSum += eremover.isAttributesValid(item);
+				if (currentSum != eremover.getValidSum()) {
+					e.setCancelled(true);
+					return;
+				}
 				lmarker.markItem(e.getWhoClicked().getName(), item, markkeyword);
 			}
 		}
