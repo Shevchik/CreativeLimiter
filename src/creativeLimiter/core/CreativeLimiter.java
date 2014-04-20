@@ -14,8 +14,13 @@ import creativeLimiter.restrict.InvOpenRestrict;
 
 public class CreativeLimiter extends JavaPlugin {
 
+	private Config config;
+
 	@Override
 	public void onEnable() {
+		//config
+		config = new Config(this);
+		config.loadConfig();
 		//inv
 		getServer().getPluginManager().registerEvents(new InventorySwitch(this), this);
 		getServer().getPluginManager().registerEvents(new InventoryClose(), this);
@@ -31,6 +36,11 @@ public class CreativeLimiter extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new VoidDamageListener(), this);
 		//gamemode changer
 		getServer().getPluginManager().registerEvents(new JoinGamemodeChanger(this), this);
+	}
+
+	@Override
+	public void onDisable() {
+		config = null;
 	}
 
 }
