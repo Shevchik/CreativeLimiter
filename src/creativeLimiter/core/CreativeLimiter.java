@@ -8,6 +8,7 @@ import creativeLimiter.ongmswitch.inventory.close.InventoryClose;
 import creativeLimiter.ongmswitch.inventory.separate.InventorySwitch;
 import creativeLimiter.placeprotect.RemoveDropFromPlaced;
 import creativeLimiter.playerprotect.VoidDamageListener;
+import creativeLimiter.restrict.CommandRestrict;
 import creativeLimiter.restrict.DropRestrict;
 import creativeLimiter.restrict.EntityDamageRestrict;
 import creativeLimiter.restrict.InteractRestrict;
@@ -30,6 +31,7 @@ public class CreativeLimiter extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new InvOpenRestrict(), this);
 		getServer().getPluginManager().registerEvents(new DropRestrict(), this);
 		getServer().getPluginManager().registerEvents(new InteractRestrict(config), this);
+		getServer().getPluginManager().registerEvents(new CommandRestrict(config), this);
 		//block nodrop
 		getServer().getPluginManager().registerEvents(new RemoveDropFromPlaced(), this);
 		//creative items checker
