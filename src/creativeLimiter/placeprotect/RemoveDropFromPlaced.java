@@ -35,8 +35,8 @@ public class RemoveDropFromPlaced implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlace(BlockPlaceEvent e) {
-		if (!e.getPlayer().hasPermission("CreativeLimiter.bypass")) {
-			if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
+		if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
+			if (!e.getPlayer().hasPermission("CreativeLimiter.bypass")) {
 				Block block = e.getBlockPlaced();
 				if (this.materials.contains(block.getType())) {
 					block.setData((byte) 15);
@@ -49,7 +49,7 @@ public class RemoveDropFromPlaced implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBreak(BlockBreakEvent e) {
 		Block block = e.getBlock();
-		if (this.materials.contains(block.getType()) && block.getData() == 15) {
+		if (materials.contains(block.getType()) && block.getData() == 15) {
 			e.setCancelled(true);
 			e.getBlock().setType(Material.AIR);
 		}
@@ -62,7 +62,7 @@ public class RemoveDropFromPlaced implements Listener {
 		Iterator<Block> it = blocks.iterator();
 		while (it.hasNext()) {
 			Block block = it.next();
-			if (this.materials.contains(block.getType()) && block.getData() == 15) {
+			if (materials.contains(block.getType()) && block.getData() == 15) {
 				it.remove();
 				block.setType(Material.AIR);
 			}
