@@ -10,6 +10,7 @@ import creativeLimiter.placeprotect.RemoveDropFromPlaced;
 import creativeLimiter.playerprotect.VoidDamageListener;
 import creativeLimiter.restrict.DropRestrict;
 import creativeLimiter.restrict.EntityDamageRestrict;
+import creativeLimiter.restrict.InteractRestrict;
 import creativeLimiter.restrict.InvOpenRestrict;
 
 public class CreativeLimiter extends JavaPlugin {
@@ -28,6 +29,7 @@ public class CreativeLimiter extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new EntityDamageRestrict(), this);
 		getServer().getPluginManager().registerEvents(new InvOpenRestrict(), this);
 		getServer().getPluginManager().registerEvents(new DropRestrict(), this);
+		getServer().getPluginManager().registerEvents(new InteractRestrict(config), this);
 		//block nodrop
 		getServer().getPluginManager().registerEvents(new RemoveDropFromPlaced(), this);
 		//creative items checker
