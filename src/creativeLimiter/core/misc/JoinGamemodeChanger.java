@@ -32,6 +32,9 @@ public class JoinGamemodeChanger implements Listener {
 	}
 
 	private void processPlayer(final Player player) {
+		if (player.getGameMode() == GameMode.SURVIVAL) {
+			return;
+		}
 		Bukkit.getScheduler().scheduleSyncDelayedTask(
 			plugin, 
 			new Runnable() {
@@ -44,5 +47,5 @@ public class JoinGamemodeChanger implements Listener {
 			}
 		);
 	}
-	
+
 }
