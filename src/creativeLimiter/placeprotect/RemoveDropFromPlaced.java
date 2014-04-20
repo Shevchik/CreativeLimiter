@@ -23,11 +23,10 @@ public class RemoveDropFromPlaced implements Listener {
 		materials = new HashSet<Material>(
 			Arrays.asList(
 				new Material[] {
-						Material.DIAMOND_ORE,
-						Material.DIAMOND_BLOCK, Material.IRON_ORE,
-						Material.IRON_BLOCK, Material.EMERALD_ORE,
-						Material.EMERALD_BLOCK, Material.IRON_ORE,
-						Material.IRON_BLOCK
+					Material.DIAMOND_ORE, Material.DIAMOND_BLOCK,
+					Material.IRON_ORE, Material.IRON_BLOCK,
+					Material.EMERALD_ORE, Material.EMERALD_BLOCK, 
+					Material.GOLD_ORE, Material.GOLD_BLOCK
 				}
 			)
 		);
