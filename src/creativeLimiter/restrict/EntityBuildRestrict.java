@@ -17,7 +17,7 @@ public class EntityBuildRestrict implements Listener {
 			if (!event.getPlayer().hasPermission("CreativeLimiter.bypass")) {
 				Block b = event.getBlockPlaced();
 				World world = b.getWorld();
-				//block witherboss creation
+				//block wither boss creation
 				if (b.getType() == Material.SKULL) {
 					if (
 						world.getBlockAt(b.getX(), b.getY() - 1, b.getZ()).getType() == Material.SOUL_SAND &&
@@ -35,7 +35,7 @@ public class EntityBuildRestrict implements Listener {
 						}
 					}
 				}
-				//block snowgolem creation
+				//block snow golem creation
 				if (b.getType() == Material.PUMPKIN || b.getType() == Material.JACK_O_LANTERN) {
 					if (
 						world.getBlockAt(b.getX(), b.getY() - 1, b.getZ()).getType() == Material.SNOW_BLOCK &&
