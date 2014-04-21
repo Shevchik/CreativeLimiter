@@ -14,6 +14,7 @@ import creativeLimiter.restrict.CommandRestrict;
 import creativeLimiter.restrict.DropRestrict;
 import creativeLimiter.restrict.EntityBuildRestrict;
 import creativeLimiter.restrict.EntityDamageRestrict;
+import creativeLimiter.restrict.FrameUseResrict;
 import creativeLimiter.restrict.InteractRestrict;
 import creativeLimiter.restrict.InvOpenRestrict;
 
@@ -39,6 +40,7 @@ public class CreativeLimiter extends JavaPlugin {
 		pm.registerEvents(new CommandRestrict(config), this);
 		pm.registerEvents(new BedrockBreakRestrict(), this);
 		pm.registerEvents(new EntityBuildRestrict(), this);
+		pm.registerEvents(new FrameUseResrict(), this);
 		//block nodrop
 		pm.registerEvents(new RemoveDropFromPlaced(), this);
 		//creative items checker
