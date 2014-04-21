@@ -1,5 +1,6 @@
 package creativeLimiter.core;
 
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import creativeLimiter.core.misc.JoinGamemodeChanger;
@@ -25,25 +26,27 @@ public class CreativeLimiter extends JavaPlugin {
 		//config
 		config = new Config(this);
 		config.loadConfig();
+		//get pluginmanager to write less code
+		PluginManager pm = getServer().getPluginManager();
 		//inv
-		getServer().getPluginManager().registerEvents(new InventorySwitch(this), this);
-		getServer().getPluginManager().registerEvents(new InventoryClose(), this);
+		pm.registerEvents(new InventorySwitch(this), this);
+		pm.registerEvents(new InventoryClose(), this);
 		//restrict
-		getServer().getPluginManager().registerEvents(new EntityDamageRestrict(), this);
-		getServer().getPluginManager().registerEvents(new InvOpenRestrict(), this);
-		getServer().getPluginManager().registerEvents(new DropRestrict(), this);
-		getServer().getPluginManager().registerEvents(new InteractRestrict(config), this);
-		getServer().getPluginManager().registerEvents(new CommandRestrict(config), this);
-		getServer().getPluginManager().registerEvents(new BedrockBreakRestrict(), this);
-		getServer().getPluginManager().registerEvents(new EntityBuildRestrict(), this);
+		pm.registerEvents(new EntityDamageRestrict(), this);
+		pm.registerEvents(new InvOpenRestrict(), this);
+		pm.registerEvents(new DropRestrict(), this);
+		pm.registerEvents(new InteractRestrict(config), this);
+		pm.registerEvents(new CommandRestrict(config), this);
+		pm.registerEvents(new BedrockBreakRestrict(), this);
+		pm.registerEvents(new EntityBuildRestrict(), this);
 		//block nodrop
-		getServer().getPluginManager().registerEvents(new RemoveDropFromPlaced(), this);
+		pm.registerEvents(new RemoveDropFromPlaced(), this);
 		//creative items checker
-		getServer().getPluginManager().registerEvents(new CreativeItemGetListener(), this);
+		pm.registerEvents(new CreativeItemGetListener(), this);
 		//void damage protection
-		getServer().getPluginManager().registerEvents(new VoidDamageListener(), this);
+		pm.registerEvents(new VoidDamageListener(), this);
 		//gamemode changer
-		getServer().getPluginManager().registerEvents(new JoinGamemodeChanger(this), this);
+		pm.registerEvents(new JoinGamemodeChanger(this), this);
 	}
 
 	@Override
