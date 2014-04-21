@@ -4,6 +4,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import creativeLimiter.inventory.creativeitem.CreativeItemGetListener;
+import creativeLimiter.inventory.deathclear.DeathListener;
 import creativeLimiter.misc.JoinGamemodeChanger;
 import creativeLimiter.ongmswitch.inventory.close.InventoryClose;
 import creativeLimiter.ongmswitch.inventory.separate.InventorySwitch;
@@ -34,6 +35,8 @@ public class CreativeLimiter extends JavaPlugin {
 		//inv
 		pm.registerEvents(new InventorySwitch(this), this);
 		pm.registerEvents(new InventoryClose(), this);
+		//death
+		pm.registerEvents(new DeathListener(), this);
 		//restrict
 		pm.registerEvents(new EntityDamageRestrict(), this);
 		pm.registerEvents(new InvOpenRestrict(), this);
