@@ -11,6 +11,7 @@ import creativeLimiter.playerprotect.VoidDamageListener;
 import creativeLimiter.restrict.BedrockBreakRestrict;
 import creativeLimiter.restrict.CommandRestrict;
 import creativeLimiter.restrict.DropRestrict;
+import creativeLimiter.restrict.EntityBuildRestrict;
 import creativeLimiter.restrict.EntityDamageRestrict;
 import creativeLimiter.restrict.InteractRestrict;
 import creativeLimiter.restrict.InvOpenRestrict;
@@ -34,6 +35,7 @@ public class CreativeLimiter extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new InteractRestrict(config), this);
 		getServer().getPluginManager().registerEvents(new CommandRestrict(config), this);
 		getServer().getPluginManager().registerEvents(new BedrockBreakRestrict(), this);
+		getServer().getPluginManager().registerEvents(new EntityBuildRestrict(), this);
 		//block nodrop
 		getServer().getPluginManager().registerEvents(new RemoveDropFromPlaced(), this);
 		//creative items checker
