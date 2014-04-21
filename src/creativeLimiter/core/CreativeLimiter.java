@@ -27,6 +27,8 @@ public class CreativeLimiter extends JavaPlugin {
 		//config
 		config = new Config(this);
 		config.loadConfig();
+		//commands
+		getCommand("creativelimiter").setExecutor(new Commands(config));
 		//get pluginmanager to write less code
 		PluginManager pm = getServer().getPluginManager();
 		//inv
