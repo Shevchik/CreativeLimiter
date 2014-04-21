@@ -1,4 +1,4 @@
-package creativeLimiter.core.misc;
+package creativeLimiter.misc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;

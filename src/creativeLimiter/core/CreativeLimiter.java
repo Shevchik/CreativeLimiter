@@ -3,8 +3,8 @@ package creativeLimiter.core;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import creativeLimiter.core.misc.JoinGamemodeChanger;
 import creativeLimiter.inventory.creativeitem.CreativeItemGetListener;
+import creativeLimiter.misc.JoinGamemodeChanger;
 import creativeLimiter.ongmswitch.inventory.close.InventoryClose;
 import creativeLimiter.ongmswitch.inventory.separate.InventorySwitch;
 import creativeLimiter.placeprotect.RemoveDropFromPlaced;
