@@ -1,6 +1,7 @@
 package creativeLimiter.core;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -37,6 +38,7 @@ public class Config {
 		}
 		config.set("restrictedMaterials", list);
 		config.set("restrictedCommands", new ArrayList<String>(restrictedCommands));
+		try {config.save(configfile);} catch (IOException e) {}
 	}
 	
 }
