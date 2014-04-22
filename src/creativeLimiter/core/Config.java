@@ -28,6 +28,7 @@ public class Config {
 			}
 		}
 		restrictedCommands = new HashSet<String>(config.getStringList("restrictedCommands"));
+		saveConfig();
 	}
 
 	public void saveConfig() {
