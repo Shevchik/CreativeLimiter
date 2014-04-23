@@ -10,14 +10,14 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import creativeLimiter.core.Config;
 
-public class InteractRestrict implements Listener {
+public class ItemUseRestrict implements Listener {
 
 	private Config config;
-	public InteractRestrict(Config config) {
+	public ItemUseRestrict(Config config) {
 		this.config = config;
 	}
 
-	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onBlockInteract(PlayerInteractEvent event) {
 		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
 			if (config.restrictedMaterials.contains(event.getPlayer().getItemInHand().getType())) {
