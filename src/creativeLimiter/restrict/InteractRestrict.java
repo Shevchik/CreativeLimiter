@@ -4,6 +4,7 @@ import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -31,6 +32,17 @@ public class InteractRestrict implements Listener {
 	public void onEntityInteract(PlayerInteractEntityEvent event) {
 		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
 			if (config.restrictedMaterials.contains(event.getPlayer().getItemInHand().getType())) {
+				if (!event.getPlayer().hasPermission("CreativeLimiter.bypass")) {
+					event.setCancelled(true);
+				}
+			}
+		}
+	}
+
+	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+	public void onBlockPlace(BlockPlaceEvent event) {
+		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
+			if (config.restrictedMaterials.contains(event.getBlockPlaced().getType())) {
 				if (!event.getPlayer().hasPermission("CreativeLimiter.bypass")) {
 					event.setCancelled(true);
 				}
