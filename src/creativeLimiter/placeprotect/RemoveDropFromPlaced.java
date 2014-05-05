@@ -26,7 +26,10 @@ public class RemoveDropFromPlaced implements Listener {
 					Material.DIAMOND_ORE, Material.DIAMOND_BLOCK,
 					Material.IRON_ORE, Material.IRON_BLOCK,
 					Material.EMERALD_ORE, Material.EMERALD_BLOCK, 
-					Material.GOLD_ORE, Material.GOLD_BLOCK
+					Material.GOLD_ORE, Material.GOLD_BLOCK,
+					Material.REDSTONE_ORE, Material.GLOWING_REDSTONE_ORE, Material.REDSTONE_BLOCK,
+					Material.COAL_ORE, Material.COAL_BLOCK,
+					Material.LAPIS_ORE, Material.LAPIS_BLOCK
 				}
 			)
 		);
