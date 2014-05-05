@@ -18,6 +18,8 @@ public class Commands implements CommandExecutor {
 		if (sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender) {
 			if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
 				config.loadConfig();
+				sender.sendMessage("Config reloaded");
+				return true;
 			}
 		}
 		return false;
