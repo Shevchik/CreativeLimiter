@@ -18,6 +18,7 @@ import creativeLimiter.restrict.EntityDamageRestrict;
 import creativeLimiter.restrict.FrameUseResrict;
 import creativeLimiter.restrict.ItemUseRestrict;
 import creativeLimiter.restrict.InvOpenRestrict;
+import creativeLimiter.restrict.PickupRestrict;
 
 public class CreativeLimiter extends JavaPlugin {
 
@@ -41,6 +42,7 @@ public class CreativeLimiter extends JavaPlugin {
 		pm.registerEvents(new EntityDamageRestrict(), this);
 		pm.registerEvents(new InvOpenRestrict(), this);
 		pm.registerEvents(new DropRestrict(), this);
+		pm.registerEvents(new PickupRestrict(), this);
 		pm.registerEvents(new ItemUseRestrict(config), this);
 		pm.registerEvents(new CommandRestrict(config), this);
 		pm.registerEvents(new BedrockBreakRestrict(), this);
