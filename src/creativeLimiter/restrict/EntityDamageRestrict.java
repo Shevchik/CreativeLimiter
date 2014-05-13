@@ -1,9 +1,9 @@
 package creativeLimiter.restrict;
 
 import org.bukkit.GameMode;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -18,8 +18,8 @@ public class EntityDamageRestrict implements Listener {
 		Entity edamager = event.getDamager();
 		if (edamager instanceof Player) {
 			damager = (Player) edamager;
-		} else if (edamager instanceof Arrow) {
-			ProjectileSource source = ((Arrow) edamager).getShooter();
+		} else if (edamager instanceof Projectile) {
+			ProjectileSource source = ((Projectile) edamager).getShooter();
 			if (source instanceof Player) {
 				damager = (Player) source;
 			}
