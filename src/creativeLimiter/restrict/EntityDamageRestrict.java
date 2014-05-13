@@ -20,7 +20,7 @@ public class EntityDamageRestrict implements Listener {
 			damager = (Player) edamager;
 		} else if (edamager instanceof Projectile) {
 			ProjectileSource source = ((Projectile) edamager).getShooter();
-			if (source instanceof Player) {
+			if (source != null && source instanceof Player) {
 				damager = (Player) source;
 			}
 		}
