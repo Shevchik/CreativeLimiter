@@ -8,6 +8,7 @@ import creativeLimiter.inventory.deathclear.DeathListener;
 import creativeLimiter.misc.JoinGamemodeChanger;
 import creativeLimiter.ongmswitch.inventory.close.InventoryClose;
 import creativeLimiter.ongmswitch.inventory.separate.InventorySwitch;
+import creativeLimiter.placeprotect.MCMMOListener;
 import creativeLimiter.placeprotect.RemoveDropFromPlaced;
 import creativeLimiter.playerprotect.VoidDamageListener;
 import creativeLimiter.restrict.BedrockBreakRestrict;
@@ -50,6 +51,7 @@ public class CreativeLimiter extends JavaPlugin {
 		pm.registerEvents(new FrameUseResrict(), this);
 		//block nodrop
 		pm.registerEvents(new RemoveDropFromPlaced(), this);
+		pm.registerEvents(new MCMMOListener(), this);
 		//creative items checker
 		pm.registerEvents(new CreativeItemGetListener(), this);
 		//void damage protection
