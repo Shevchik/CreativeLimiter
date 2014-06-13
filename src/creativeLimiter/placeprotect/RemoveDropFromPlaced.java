@@ -15,10 +15,6 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 
 public class RemoveDropFromPlaced implements Listener {
 
-	public RemoveDropFromPlaced() {
-
-	}
-
 	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlace(BlockPlaceEvent e) {
