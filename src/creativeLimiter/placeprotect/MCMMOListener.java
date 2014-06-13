@@ -1,6 +1,5 @@
 package creativeLimiter.placeprotect;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -16,7 +15,6 @@ public class MCMMOListener implements Listener {
 		Block block = e.getBlock();
 		if (Materials.isMaterialProtected(block.getType()) && block.getData() == 15) {
 			e.setCancelled(true);
-			e.getBlock().setType(Material.AIR);
 		}
 	}
 
