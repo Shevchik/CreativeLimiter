@@ -1,8 +1,10 @@
 package creativeLimiter.inventory.creativeitem;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
@@ -10,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 public class CreativeItemGetListener implements Listener {
@@ -36,21 +39,31 @@ public class CreativeItemGetListener implements Listener {
 		newItem.setDurability(oldItem.getDurability());
 		//handle books
 		if (oldItem.getType() == Material.ENCHANTED_BOOK) {
-			//book may contain only 1 enchantment so we just check and apply it if it is valid
+			//handle enchants
 			if (oldItem.hasItemMeta()) {
 				EnchantmentStorageMeta oldEnchBookMeta = (EnchantmentStorageMeta) oldItem.getItemMeta();
 				if (oldEnchBookMeta.hasStoredEnchants()) {
+					//just add the first found enchants if it is valid
 					Map<Enchantment, Integer> enchants = oldEnchBookMeta.getStoredEnchants();
 					if (enchants.size() > 0) {
-						Enchantment ench = enchants.keySet().iterator().next();
-						if (enchants.get(ench) <= ench.getMaxLevel()) {
+						Entry<Enchantment, Integer> entry = enchants.entrySet().iterator().next();
+						if (entry.getValue() <= entry.getKey().getMaxLevel()) {
 							EnchantmentStorageMeta newEnchBookMeta = (EnchantmentStorageMeta) Bukkit.getItemFactory().getItemMeta(Material.ENCHANTED_BOOK);
-							newEnchBookMeta.addEnchant(ench, enchants.get(ench), false);
+							newEnchBookMeta.addEnchant(entry.getKey(), entry.getValue(), false);
 							newItem.setItemMeta(newEnchBookMeta);
 						}
 					}
 				}
 			}
+			//now handle name
+			ItemMeta newItemMeta = null;
+			if (newItem.hasItemMeta()) {
+				newItemMeta = newItem.getItemMeta();
+			} else {
+				newItemMeta = Bukkit.getItemFactory().getItemMeta(Material.ENCHANTED_BOOK);
+			}
+			newItemMeta.setDisplayName(ChatColor.YELLOW + "Enchanted Book");
+			newItem.setItemMeta(newItemMeta);
 		}
 		//handle heads
 		if (oldItem.getType() == Material.SKULL_ITEM && oldItem.getDurability() == 3) {
