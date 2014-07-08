@@ -49,7 +49,7 @@ public class CreativeItemGetListener implements Listener {
 						Entry<Enchantment, Integer> entry = enchants.entrySet().iterator().next();
 						if (entry.getValue() <= entry.getKey().getMaxLevel()) {
 							EnchantmentStorageMeta newEnchBookMeta = (EnchantmentStorageMeta) Bukkit.getItemFactory().getItemMeta(Material.ENCHANTED_BOOK);
-							newEnchBookMeta.addEnchant(entry.getKey(), entry.getValue(), false);
+							newEnchBookMeta.addStoredEnchant(entry.getKey(), entry.getValue(), false);
 							newItem.setItemMeta(newEnchBookMeta);
 						}
 					}
