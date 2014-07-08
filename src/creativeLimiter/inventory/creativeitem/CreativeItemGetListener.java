@@ -27,7 +27,12 @@ public class CreativeItemGetListener implements Listener {
 	public ItemStack generateCleanItem(ItemStack oldItem) {
 		//handle base
 		ItemStack newItem = new ItemStack(oldItem.getType());
-		newItem.setAmount(oldItem.getAmount());
+		//handle possibly invalid count (never seen this, but who knows what can possibly happen?)
+		if (oldItem.getAmount() > oldItem.getMaxStackSize()) {
+			newItem.setAmount(oldItem.getMaxStackSize());
+		} else {
+			newItem.setAmount(oldItem.getAmount());
+		}
 		newItem.setDurability(oldItem.getDurability());
 		//handle books
 		if (oldItem.getType() == Material.ENCHANTED_BOOK) {
