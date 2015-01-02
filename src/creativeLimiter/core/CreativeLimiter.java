@@ -3,12 +3,11 @@ package creativeLimiter.core;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import creativeLimiter.inventory.creativeitem.CreativeItemGetListener;
 import creativeLimiter.inventory.deathclear.DeathListener;
+import creativeLimiter.itemscleaner.CreativeItemListener;
 import creativeLimiter.misc.JoinGamemodeChanger;
 import creativeLimiter.ongmswitch.inventory.close.InventoryClose;
 import creativeLimiter.ongmswitch.inventory.separate.InventorySwitch;
-import creativeLimiter.placeprotect.MCMMOListener;
 import creativeLimiter.placeprotect.RemoveDropFromPlaced;
 import creativeLimiter.playerprotect.VoidDamageListener;
 import creativeLimiter.restrict.BedrockBreakRestrict;
@@ -16,7 +15,7 @@ import creativeLimiter.restrict.CommandRestrict;
 import creativeLimiter.restrict.DropRestrict;
 import creativeLimiter.restrict.EntityBuildRestrict;
 import creativeLimiter.restrict.EntityDamageRestrict;
-import creativeLimiter.restrict.FrameUseResrict;
+import creativeLimiter.restrict.EntityUseResrict;
 import creativeLimiter.restrict.ItemUseRestrict;
 import creativeLimiter.restrict.InvOpenRestrict;
 import creativeLimiter.restrict.PickupRestrict;
@@ -48,12 +47,11 @@ public class CreativeLimiter extends JavaPlugin {
 		pm.registerEvents(new CommandRestrict(config), this);
 		pm.registerEvents(new BedrockBreakRestrict(), this);
 		pm.registerEvents(new EntityBuildRestrict(), this);
-		pm.registerEvents(new FrameUseResrict(), this);
+		pm.registerEvents(new EntityUseResrict(), this);
 		//block nodrop
 		pm.registerEvents(new RemoveDropFromPlaced(), this);
-		pm.registerEvents(new MCMMOListener(), this);
 		//creative items checker
-		pm.registerEvents(new CreativeItemGetListener(), this);
+		pm.registerEvents(new CreativeItemListener(), this);
 		//void damage protection
 		pm.registerEvents(new VoidDamageListener(), this);
 		//gamemode changer
