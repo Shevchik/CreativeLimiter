@@ -2,6 +2,7 @@ name: CreativeLimiter
 main: creativeLimiter.core.CreativeLimiter
 version: 1.0
 author: _Shevchik_
+load: STARTUP
 commands:
   creativelimiter:
     description: CreativeLimiter commands

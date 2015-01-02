@@ -24,6 +24,8 @@ public class CreativeLimiter extends JavaPlugin {
 
 	private Config config;
 
+	private RemoveDropFromPlaced removeDropFromPlaced;
+
 	@Override
 	public void onEnable() {
 		//config
@@ -49,7 +51,8 @@ public class CreativeLimiter extends JavaPlugin {
 		pm.registerEvents(new EntityBuildRestrict(), this);
 		pm.registerEvents(new EntityUseResrict(), this);
 		//block nodrop
-		pm.registerEvents(new RemoveDropFromPlaced(), this);
+		removeDropFromPlaced = new RemoveDropFromPlaced(this);
+		pm.registerEvents(removeDropFromPlaced, this);
 		//creative items checker
 		pm.registerEvents(new CreativeItemListener(), this);
 		//void damage protection
@@ -60,6 +63,7 @@ public class CreativeLimiter extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		removeDropFromPlaced.saveBlocks();
 		config = null;
 	}
 
