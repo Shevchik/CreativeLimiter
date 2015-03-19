@@ -108,7 +108,7 @@ public class RemoveDropFromPlaced implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onExplode(EntityExplodeEvent e) {
-		HashSet<Block> worldblocks = protectedBlocks.get(e.getEntity().getWorld());
+		HashSet<Block> worldblocks = protectedBlocks.get(e.getLocation().getWorld());
 		List<Block> blocks = e.blockList();
 		Iterator<Block> it = blocks.iterator();
 		while (it.hasNext()) {
