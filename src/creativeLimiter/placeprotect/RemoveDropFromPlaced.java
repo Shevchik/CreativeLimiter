@@ -18,6 +18,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -35,7 +36,7 @@ public class RemoveDropFromPlaced implements Listener {
 		saveDataFolder.mkdirs();
 	}
 
-	private HashMap<World, HashSet<Block>> protectedBlocks = new HashMap<World, HashSet<Block>>();
+	private final HashMap<World, HashSet<Block>> protectedBlocks = new HashMap<World, HashSet<Block>>();
 
 	public void saveBlocks() {
 		for (Entry<World, HashSet<Block>> entry : protectedBlocks.entrySet()) {
@@ -109,6 +110,20 @@ public class RemoveDropFromPlaced implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onExplode(EntityExplodeEvent e) {
 		HashSet<Block> worldblocks = protectedBlocks.get(e.getLocation().getWorld());
+		List<Block> blocks = e.blockList();
+		Iterator<Block> it = blocks.iterator();
+		while (it.hasNext()) {
+			Block block = it.next();
+			if (worldblocks.remove(block)) {
+				it.remove();
+				block.setType(Material.AIR);
+			}
+		}
+	}
+
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onExplode(BlockExplodeEvent e) {
+		HashSet<Block> worldblocks = protectedBlocks.get(e.getBlock().getWorld());
 		List<Block> blocks = e.blockList();
 		Iterator<Block> it = blocks.iterator();
 		while (it.hasNext()) {
