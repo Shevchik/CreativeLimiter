@@ -20,10 +20,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.world.WorldInitEvent;
-import org.bukkit.event.world.WorldUnloadEvent;
 
 import creativeLimiter.core.CreativeLimiter;
 
@@ -36,10 +36,10 @@ public class RemoveDropFromPlaced implements Listener {
 		saveDataFolder.mkdirs();
 	}
 
-	private final HashMap<World, HashSet<Block>> protectedBlocks = new HashMap<World, HashSet<Block>>();
+	private final HashMap<String, HashSet<Block>> protectedBlocks = new HashMap<String, HashSet<Block>>();
 
 	public void saveBlocks() {
-		for (Entry<World, HashSet<Block>> entry : protectedBlocks.entrySet()) {
+		for (Entry<String, HashSet<Block>> entry : protectedBlocks.entrySet()) {
 			YamlConfiguration config = new YamlConfiguration();
 			ArrayList<String> data = new ArrayList<String>();
 			for (Block block : entry.getValue()) {
@@ -47,7 +47,7 @@ public class RemoveDropFromPlaced implements Listener {
 			}
 			config.set("blocks", data);
 			try {
-				config.save(new File(new File(saveDataFolder, entry.getKey().getName()), "protectedblocks.yml"));
+				config.save(new File(new File(saveDataFolder, entry.getKey()), "protectedblocks.yml"));
 			} catch (IOException e) {
 			}
 		}
@@ -65,12 +65,7 @@ public class RemoveDropFromPlaced implements Listener {
 				worldblocks.add(world.getBlockAt(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2])));
 			}
 		}
-		protectedBlocks.put(world, worldblocks);
-	}
-
-	@EventHandler
-	public void onWorldUnload(WorldUnloadEvent event) {
-		protectedBlocks.remove(event.getWorld());
+		protectedBlocks.put(world.getName(), worldblocks);
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -78,14 +73,28 @@ public class RemoveDropFromPlaced implements Listener {
 		if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
 			if (!e.getPlayer().hasPermission("CreativeLimiter.bypass")) {
 				Block block = e.getBlockPlaced();
-				protectedBlocks.get(block.getWorld()).add(block);
+				protectedBlocks.get(block.getWorld().getName()).add(block);
 			}
 		}
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPistonExtend(BlockPistonExtendEvent e) {
-		HashSet<Block> worldblocks = protectedBlocks.get(e.getBlock().getWorld());
+		HashSet<Block> worldblocks = protectedBlocks.get(e.getBlock().getWorld().getName());
+		ArrayList<Block> blocksToAdd = new ArrayList<Block>();
+		for (Block block : e.getBlocks()) {
+			if (worldblocks.remove(block)) {
+				blocksToAdd.add(block);
+			}
+		}
+		for (Block block : blocksToAdd) {
+			worldblocks.add(block.getRelative(e.getDirection()));
+		}
+	}
+
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onPistonRetract(BlockPistonRetractEvent e) {
+		HashSet<Block> worldblocks = protectedBlocks.get(e.getBlock().getWorld().getName());
 		ArrayList<Block> blocksToAdd = new ArrayList<Block>();
 		for (Block block : e.getBlocks()) {
 			if (worldblocks.remove(block)) {
@@ -99,8 +108,8 @@ public class RemoveDropFromPlaced implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBreak(BlockBreakEvent e) {
+		HashSet<Block> worldblocks = protectedBlocks.get(e.getBlock().getWorld().getName());
 		Block block = e.getBlock();
-		HashSet<Block> worldblocks = protectedBlocks.get(e.getBlock().getWorld());
 		if (worldblocks.remove(block)) {
 			e.setCancelled(true);
 			block.setType(Material.AIR);
@@ -109,7 +118,7 @@ public class RemoveDropFromPlaced implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onExplode(EntityExplodeEvent e) {
-		HashSet<Block> worldblocks = protectedBlocks.get(e.getLocation().getWorld());
+		HashSet<Block> worldblocks = protectedBlocks.get(e.getLocation().getWorld().getName());
 		List<Block> blocks = e.blockList();
 		Iterator<Block> it = blocks.iterator();
 		while (it.hasNext()) {
@@ -123,7 +132,7 @@ public class RemoveDropFromPlaced implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onExplode(BlockExplodeEvent e) {
-		HashSet<Block> worldblocks = protectedBlocks.get(e.getBlock().getWorld());
+		HashSet<Block> worldblocks = protectedBlocks.get(e.getBlock().getWorld().getName());
 		List<Block> blocks = e.blockList();
 		Iterator<Block> it = blocks.iterator();
 		while (it.hasNext()) {
