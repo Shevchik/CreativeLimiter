@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -34,6 +35,9 @@ public class RemoveDropFromPlaced implements Listener {
 	public RemoveDropFromPlaced(CreativeLimiter plugin) {
 		saveDataFolder = new File(plugin.getDataFolder(), "worldsdata");
 		saveDataFolder.mkdirs();
+		for (World world : Bukkit.getWorlds()) {
+			protectedBlocks.put(world.getName(), loadBlocks(world));
+		}
 	}
 
 	private final HashMap<String, HashSet<Block>> protectedBlocks = new HashMap<String, HashSet<Block>>();
@@ -55,9 +59,13 @@ public class RemoveDropFromPlaced implements Listener {
 
 	@EventHandler
 	public void onWorldInit(WorldInitEvent event) {
-		File file = new File(new File(saveDataFolder, event.getWorld().getName()), "protectedblocks.yml");
-		YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 		World world = event.getWorld();
+		protectedBlocks.put(world.getName(), loadBlocks(world));
+	}
+
+	private HashSet<Block> loadBlocks(World world) {
+		File file = new File(new File(saveDataFolder, world.getName()), "protectedblocks.yml");
+		YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 		HashSet<Block> worldblocks = new HashSet<Block>();
 		for (String blockinfo : config.getStringList("blocks")) {
 			String[] split = blockinfo.split("[;]");
@@ -65,7 +73,7 @@ public class RemoveDropFromPlaced implements Listener {
 				worldblocks.add(world.getBlockAt(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2])));
 			}
 		}
-		protectedBlocks.put(world.getName(), worldblocks);
+		return worldblocks;
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
