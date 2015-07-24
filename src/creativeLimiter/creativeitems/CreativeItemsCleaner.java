@@ -1,4 +1,4 @@
-package creativeLimiter.itemscleaner;
+package creativeLimiter.creativeitems;
 
 import java.util.Map;
 import java.util.Map.Entry;

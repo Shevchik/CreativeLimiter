@@ -14,46 +14,54 @@ import org.bukkit.inventory.ItemStack;
 
 public class InventoryStore {
 
-	private File playerfile;
-	private HashMap<GameMode, List<ItemStack>> invcache = new HashMap<GameMode, List<ItemStack>>();
-	private HashMap<GameMode, List<ItemStack>> armorcache = new HashMap<GameMode, List<ItemStack>>();
+	private final File playerfile;
+	private final HashMap<GameMode, ItemStack[]> invdata = new HashMap<GameMode, ItemStack[]>();
+	private final HashMap<GameMode, ItemStack[]> armordata = new HashMap<GameMode, ItemStack[]>();
 
 	public InventoryStore(String playername, File datafolder) {
 		this.playerfile = new File(datafolder, playername);
 	}
 
-	public void saveInventory(Player player, GameMode oldgm) {
-		List<ItemStack> inv = Arrays.asList(player.getInventory().getContents());
-		List<ItemStack> armor = Arrays.asList(player.getInventory().getArmorContents());
-		invcache.put(oldgm, inv);
-		armorcache.put(oldgm, armor);
-		player.getInventory().clear();
-		player.getInventory().setArmorContents(new ItemStack[4]);
+	@SuppressWarnings("unchecked")
+	public void load() {
 		YamlConfiguration config = YamlConfiguration.loadConfiguration(playerfile);
-		config.set(oldgm.toString() + ".inv", inv);
-		config.set(oldgm.toString() + ".armor", armor);
-		try {config.save(playerfile);} catch (IOException e) {}
+		for (String gm : config.getKeys(false)) {
+			List<ItemStack> inv = new ArrayList<ItemStack>();
+			if (config.contains(gm.toString() + ".inv")) {
+				inv = (List<ItemStack>) config.get(gm + ".inv");
+			}
+			invdata.put(GameMode.valueOf(gm), inv.toArray(new ItemStack[36]));
+			List<ItemStack> armor = new ArrayList<ItemStack>();
+			if (config.contains(gm.toString() + ".armor")) {
+				armor = (List<ItemStack>) config.get(gm + ".armor");
+			}
+			armordata.put(GameMode.valueOf(gm), armor.toArray(new ItemStack[4]));
+		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public void loadInventory(Player player, GameMode newgm) {
-		if (!invcache.containsKey(newgm) || !armorcache.containsKey(newgm)) {
-			YamlConfiguration config = YamlConfiguration.loadConfiguration(playerfile);
-			List<ItemStack> inv = new ArrayList<ItemStack>();
-			if (config.contains(newgm.toString() + ".inv")) {
-				inv = (List<ItemStack>) config.get(newgm.toString() + ".inv");
+	public void save() {
+		YamlConfiguration config = new YamlConfiguration();
+		for (GameMode gm : GameMode.values()) {
+			if (invdata.containsKey(gm) && armordata.containsKey(gm)) {
+				config.set(gm.toString()+".inv", Arrays.asList(invdata.get(gm)));
+				config.set(gm.toString()+".armor", Arrays.asList(armordata.get(gm)));
 			}
-			invcache.put(newgm, inv);
-			List<ItemStack> armor = new ArrayList<ItemStack>();
-			if (config.contains(newgm.toString() + ".armor")) {
-				armor = (List<ItemStack>) config.get(newgm.toString() + ".armor");
-			}
-			armorcache.put(newgm, armor);
 		}
-		ItemStack[] inv = invcache.get(newgm).toArray(new ItemStack[invcache.get(newgm).size()]);
-		ItemStack[] armor = armorcache.get(newgm).toArray(new ItemStack[armorcache.get(newgm).size()]);
-		player.getInventory().setContents(inv);
-		player.getInventory().setArmorContents(armor);
+		try {
+			config.save(playerfile);
+		} catch (IOException e) {
+		}
+	}
+
+	public void switchInventory(Player player, GameMode oldgm, GameMode newgm) {
+		invdata.put(oldgm, player.getInventory().getContents());
+		armordata.put(oldgm, player.getInventory().getArmorContents());
+		player.getInventory().clear();
+		player.getInventory().setArmorContents(new ItemStack[4]);
+		if (invdata.containsKey(newgm) && armordata.containsKey(newgm)) {
+			player.getInventory().setContents(invdata.get(newgm));
+			player.getInventory().setArmorContents(armordata.get(newgm));
+		}
 	}
 
 }

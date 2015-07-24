@@ -1,4 +1,4 @@
-package creativeLimiter.itemscleaner;
+package creativeLimiter.creativeitems;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

@@ -3,10 +3,9 @@ package creativeLimiter.core;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import creativeLimiter.creativeitems.CreativeItemListener;
 import creativeLimiter.inventory.deathclear.DeathListener;
-import creativeLimiter.itemscleaner.CreativeItemListener;
 import creativeLimiter.misc.JoinGamemodeChanger;
-import creativeLimiter.ongmswitch.inventory.close.InventoryClose;
 import creativeLimiter.ongmswitch.inventory.separate.InventorySwitch;
 import creativeLimiter.placeprotect.RemoveDropFromPlaced;
 import creativeLimiter.playerprotect.VoidDamageListener;
@@ -25,6 +24,7 @@ public class CreativeLimiter extends JavaPlugin {
 	private Config config;
 
 	private RemoveDropFromPlaced removeDropFromPlaced;
+	private InventorySwitch invswitch;
 
 	@Override
 	public void onEnable() {
@@ -36,8 +36,9 @@ public class CreativeLimiter extends JavaPlugin {
 		//get pluginmanager to write less code
 		PluginManager pm = getServer().getPluginManager();
 		//inv
-		pm.registerEvents(new InventorySwitch(this), this);
-		pm.registerEvents(new InventoryClose(), this);
+		invswitch = new InventorySwitch(this);
+		invswitch.load();
+		pm.registerEvents(invswitch, this);
 		//death
 		pm.registerEvents(new DeathListener(), this);
 		//restrict
@@ -64,6 +65,7 @@ public class CreativeLimiter extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		removeDropFromPlaced.saveBlocks();
+		invswitch.save();
 		config = null;
 	}
 
