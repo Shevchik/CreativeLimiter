@@ -13,7 +13,7 @@ import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class CreativeItemsCleaner {
+public class CreativeItems {
 
 	//Generates new itemstack based on the properties of the old
 	public static ItemStack generateCleanItem(ItemStack oldItem) {

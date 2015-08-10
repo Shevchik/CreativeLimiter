@@ -16,7 +16,7 @@ public class CreativeItemListener implements Listener {
 		}
 		ItemStack item = event.getCursor();
 		if (item != null) {
-			event.setCursor(CreativeItemsCleaner.generateCleanItem(item));
+			event.setCursor(CreativeItems.generateCleanItem(item));
 		}
 	}
 
