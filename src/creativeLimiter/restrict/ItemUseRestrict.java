@@ -9,6 +9,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 
 import creativeLimiter.core.Config;
 
@@ -34,7 +35,7 @@ public class ItemUseRestrict implements Listener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onBlockInteract(PlayerInteractEvent event) {
 		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
-			if (config.restrictedMaterials.contains(event.getPlayer().getItemInHand().getType())) {
+			if (config.restrictedMaterials.contains(event.getItem().getType())) {
 				if (!event.getPlayer().hasPermission("CreativeLimiter.bypass")) {
 					event.setCancelled(true);
 				}
@@ -45,7 +46,13 @@ public class ItemUseRestrict implements Listener {
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onEntityInteract(PlayerInteractEntityEvent event) {
 		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
-			if (config.restrictedMaterials.contains(event.getPlayer().getItemInHand().getType())) {
+			Material clicked = Material.AIR;
+			if (event.getHand() == EquipmentSlot.HAND) {
+				clicked = event.getPlayer().getInventory().getItemInMainHand().getType();
+			} else {
+				clicked = event.getPlayer().getInventory().getItemInOffHand().getType();
+			}
+			if (config.restrictedMaterials.contains(clicked)) {
 				if (!event.getPlayer().hasPermission("CreativeLimiter.bypass")) {
 					event.setCancelled(true);
 				}
