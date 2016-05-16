@@ -5,8 +5,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import creativeLimiter.creativeitems.CreativeItemListener;
 import creativeLimiter.inventory.deathclear.DeathListener;
+import creativeLimiter.inventory.separate.InventorySwitch;
 import creativeLimiter.misc.JoinGamemodeChanger;
-import creativeLimiter.ongmswitch.inventory.separate.InventorySwitch;
 import creativeLimiter.placeprotect.RemoveDropFromPlaced;
 import creativeLimiter.playerprotect.VoidDamageListener;
 import creativeLimiter.restrict.BedrockBreakRestrict;

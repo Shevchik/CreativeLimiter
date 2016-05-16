@@ -1,4 +1,4 @@
-package creativeLimiter.ongmswitch.inventory.separate;
+package creativeLimiter.inventory.separate;
 
 import java.io.File;
 import java.io.IOException;
