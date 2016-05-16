@@ -2,6 +2,7 @@ package creativeLimiter.restrict;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -10,6 +11,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 
 import creativeLimiter.core.Config;
 
@@ -22,11 +24,13 @@ public class ItemUseRestrict implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onJukeBoxInteract(PlayerInteractEvent event) {
-		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
+		Player player = event.getPlayer();
+		if (player.hasPermission("CreativeLimiter.bypass")) {
+			return;
+		}
+		if (player.getGameMode() == GameMode.CREATIVE) {
 			if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.JUKEBOX) {
-				if (!event.getPlayer().hasPermission("CreativeLimiter.bypass")) {
-					event.setCancelled(true);
-				}
+				event.setCancelled(true);
 			}
 		}
 	}
@@ -34,41 +38,51 @@ public class ItemUseRestrict implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onBlockInteract(PlayerInteractEvent event) {
-		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
-			if (config.restrictedMaterials.contains(event.getItem().getType())) {
-				if (!event.getPlayer().hasPermission("CreativeLimiter.bypass")) {
-					event.setCancelled(true);
-				}
+		Player player = event.getPlayer();
+		if (player.hasPermission("CreativeLimiter.bypass")) {
+			return;
+		}
+		if (player.getGameMode() == GameMode.CREATIVE) {
+			if (config.restrictedMaterials.contains(getMaterialOrNull(event.getItem()))) {
+				event.setCancelled(true);
 			}
 		}
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onEntityInteract(PlayerInteractEntityEvent event) {
-		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
+		Player player = event.getPlayer();
+		if (player.hasPermission("CreativeLimiter.bypass")) {
+			return;
+		}
+		if (player.getGameMode() == GameMode.CREATIVE) {
 			Material clicked = Material.AIR;
 			if (event.getHand() == EquipmentSlot.HAND) {
-				clicked = event.getPlayer().getInventory().getItemInMainHand().getType();
+				clicked = getMaterialOrNull(player.getInventory().getItemInMainHand());
 			} else {
-				clicked = event.getPlayer().getInventory().getItemInOffHand().getType();
+				clicked = getMaterialOrNull(player.getInventory().getItemInOffHand());
 			}
 			if (config.restrictedMaterials.contains(clicked)) {
-				if (!event.getPlayer().hasPermission("CreativeLimiter.bypass")) {
-					event.setCancelled(true);
-				}
+				event.setCancelled(true);
 			}
 		}
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onBlockPlace(BlockPlaceEvent event) {
-		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
+		Player player = event.getPlayer();
+		if (player.hasPermission("CreativeLimiter.bypass")) {
+			return;
+		}
+		if (player.getGameMode() == GameMode.CREATIVE) {
 			if (config.restrictedMaterials.contains(event.getBlockPlaced().getType())) {
-				if (!event.getPlayer().hasPermission("CreativeLimiter.bypass")) {
-					event.setCancelled(true);
-				}
+				event.setCancelled(true);
 			}
 		}
+	}
+
+	private Material getMaterialOrNull(ItemStack itemstack) {
+		return itemstack != null ? itemstack.getType() : null;
 	}
 
 }
